@@ -1,0 +1,14 @@
+syntax = "proto3";
+package blognitum.blognitum;
+
+import "gogoproto/gogo.proto";
+import "blognitum/blognitum/params.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "blognitum/x/blognitum/types";
+
+// GenesisState defines the blognitum module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  // this line is used by starport scaffolding # genesis/proto/state
+}
