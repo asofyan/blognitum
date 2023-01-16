@@ -33,6 +33,11 @@ export interface BlognitumMsgCreatePostResponse {
   id?: string;
 }
 
+export interface BlognitumMsgDeleteCommentResponse {
+  /** @format uint64 */
+  id?: string;
+}
+
 /**
  * Params defines the parameters for the module.
  */

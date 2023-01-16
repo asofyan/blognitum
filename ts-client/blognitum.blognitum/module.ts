@@ -7,11 +7,18 @@ import { msgTypes } from './registry';
 import { IgniteClient } from "../client"
 import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
+import { MsgDeleteComment } from "./types/blognitum/blognitum/tx";
 import { MsgCreateComment } from "./types/blognitum/blognitum/tx";
 import { MsgCreatePost } from "./types/blognitum/blognitum/tx";
 
 
-export { MsgCreateComment, MsgCreatePost };
+export { MsgDeleteComment, MsgCreateComment, MsgCreatePost };
+
+type sendMsgDeleteCommentParams = {
+  value: MsgDeleteComment,
+  fee?: StdFee,
+  memo?: string
+};
 
 type sendMsgCreateCommentParams = {
   value: MsgCreateComment,
@@ -25,6 +32,10 @@ type sendMsgCreatePostParams = {
   memo?: string
 };
 
+
+type msgDeleteCommentParams = {
+  value: MsgDeleteComment,
+};
 
 type msgCreateCommentParams = {
   value: MsgCreateComment,
@@ -51,6 +62,20 @@ interface TxClientOptions {
 export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "http://localhost:26657", prefix: "cosmos" }) => {
 
   return {
+		
+		async sendMsgDeleteComment({ value, fee, memo }: sendMsgDeleteCommentParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgDeleteComment: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgDeleteComment({ value: MsgDeleteComment.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgDeleteComment: Could not broadcast Tx: '+ e.message)
+			}
+		},
 		
 		async sendMsgCreateComment({ value, fee, memo }: sendMsgCreateCommentParams): Promise<DeliverTxResponse> {
 			if (!signer) {
@@ -80,6 +105,14 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
+		
+		msgDeleteComment({ value }: msgDeleteCommentParams): EncodeObject {
+			try {
+				return { typeUrl: "/blognitum.blognitum.MsgDeleteComment", value: MsgDeleteComment.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgDeleteComment: Could not create message: ' + e.message)
+			}
+		},
 		
 		msgCreateComment({ value }: msgCreateCommentParams): EncodeObject {
 			try {

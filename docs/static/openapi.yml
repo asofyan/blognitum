@@ -45073,6 +45073,12 @@ definitions:
       id:
         type: string
         format: uint64
+  blognitum.blognitum.MsgDeleteCommentResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
   blognitum.blognitum.Params:
     type: object
     description: Params defines the parameters for the module.
