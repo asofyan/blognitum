@@ -9,6 +9,11 @@
  * ---------------------------------------------------------------
  */
 
+export interface BlognitumMsgCreatePostResponse {
+  /** @format uint64 */
+  id?: string;
+}
+
 /**
  * Params defines the parameters for the module.
  */
