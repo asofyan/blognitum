@@ -23,6 +23,11 @@ export interface BlognitumComment {
   createdAt?: string;
 }
 
+export interface BlognitumMsgCreateCommentResponse {
+  /** @format uint64 */
+  id?: string;
+}
+
 export interface BlognitumMsgCreatePostResponse {
   /** @format uint64 */
   id?: string;
@@ -40,6 +45,9 @@ export interface BlognitumPost {
   id?: string;
   title?: string;
   body?: string;
+
+  /** @format int64 */
+  createdAt?: string;
 }
 
 export interface BlognitumQueryAllCommentResponse {

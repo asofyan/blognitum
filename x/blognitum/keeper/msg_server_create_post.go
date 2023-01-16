@@ -14,9 +14,10 @@ func (k msgServer) CreatePost(goCtx context.Context, msg *types.MsgCreatePost) (
 	// TODO: Handling the message
 	//_ = ctx
 	var post = types.Post{
-		Creator: msg.Creator,
-		Title:   msg.Title,
-		Body:    msg.Body,
+		Creator:   msg.Creator,
+		Title:     msg.Title,
+		Body:      msg.Body,
+		CreatedAt: ctx.BlockHeight(),
 	}
 
 	id := k.AppendPost(ctx, post)

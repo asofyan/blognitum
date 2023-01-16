@@ -8,5 +8,7 @@ import (
 
 // x/blognitum module sentinel errors
 var (
-	ErrSample = sdkerrors.Register(ModuleName, 1100, "sample error")
+	ErrSample     = sdkerrors.Register(ModuleName, 1100, "sample error")
+	ErrCommentOld = sdkerrors.Register(ModuleName, 1300, "")
+	ErrID         = sdkerrors.Register(ModuleName, 1400, "")
 )

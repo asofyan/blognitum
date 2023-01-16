@@ -253,6 +253,9 @@ paths:
                       type: string
                     body:
                       type: string
+                    createdAt:
+                      type: string
+                      format: int64
                 title: |-
                   string title = 1;
                   string body = 2;
@@ -45058,6 +45061,12 @@ definitions:
       createdAt:
         type: string
         format: int64
+  blognitum.blognitum.MsgCreateCommentResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
   blognitum.blognitum.MsgCreatePostResponse:
     type: object
     properties:
@@ -45079,6 +45088,9 @@ definitions:
         type: string
       body:
         type: string
+      createdAt:
+        type: string
+        format: int64
   blognitum.blognitum.QueryAllCommentResponse:
     type: object
     properties:
@@ -45173,6 +45185,9 @@ definitions:
               type: string
             body:
               type: string
+            createdAt:
+              type: string
+              format: int64
         title: |-
           string title = 1;
           string body = 2;
