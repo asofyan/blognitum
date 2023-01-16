@@ -27,6 +27,5 @@ func (k msgServer) DeleteComment(goCtx context.Context, msg *types.MsgDeleteComm
 	bz := make([]byte, 8)
 	binary.BigEndian.PutUint64(bz, comment.Id)
 	store.Delete(bz)
-
 	return &types.MsgDeleteCommentResponse{}, nil
 }
