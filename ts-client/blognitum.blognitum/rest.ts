@@ -9,6 +9,20 @@
  * ---------------------------------------------------------------
  */
 
+export interface BlognitumComment {
+  /** @format uint64 */
+  id?: string;
+  creator?: string;
+  title?: string;
+  body?: string;
+
+  /** @format uint64 */
+  postID?: string;
+
+  /** @format int64 */
+  createdAt?: string;
+}
+
 export interface BlognitumMsgCreatePostResponse {
   /** @format uint64 */
   id?: string;
@@ -26,6 +40,25 @@ export interface BlognitumPost {
   id?: string;
   title?: string;
   body?: string;
+}
+
+export interface BlognitumQueryAllCommentResponse {
+  Comment?: BlognitumComment[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface BlognitumQueryGetCommentResponse {
+  Comment?: BlognitumComment;
 }
 
 /**
@@ -259,10 +292,52 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title blognitum/blognitum/genesis.proto
+ * @title blognitum/blognitum/comment.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryCommentAll
+   * @summary Queries a list of Comment items.
+   * @request GET:/blognitum/blognitum/comment
+   */
+  queryCommentAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<BlognitumQueryAllCommentResponse, RpcStatus>({
+      path: `/blognitum/blognitum/comment`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryComment
+   * @summary Queries a Comment by id.
+   * @request GET:/blognitum/blognitum/comment/{id}
+   */
+  queryComment = (id: string, params: RequestParams = {}) =>
+    this.request<BlognitumQueryGetCommentResponse, RpcStatus>({
+      path: `/blognitum/blognitum/comment/${id}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *
